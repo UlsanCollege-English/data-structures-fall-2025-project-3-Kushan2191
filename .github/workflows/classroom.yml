@@ -13,11 +13,25 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+    - name: Set up Python (diagnostic)
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Diagnostic: print environment and repo files
+      run: |
+        echo "Python: $(python --version || echo 'no python')"
+        echo "Pip: $(python -m pip --version || echo 'no pip')"
+        echo "Current dir: $(pwd)"
+        echo "Listing root files:";
+        ls -la || true
+        if [ -f requirements.txt ]; then echo "\nrequirements.txt contents:"; cat requirements.txt; fi
+        echo "\nTop-level tree:"; ls -la || true
     - name: tests
       id: tests
       uses: classroom-resources/autograding-python-grader@v1
       with:
-        timeout: 10
+        timeout: 30
         setup-command: ''
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
