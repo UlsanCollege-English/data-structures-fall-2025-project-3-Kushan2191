@@ -26,3 +26,11 @@ Notes & safety
 - Replace placeholders with the exact admin API endpoints for your vendor (Anthropic, Anthropic-like, internal feature-flag service, etc.).
 
 If you provide the vendor name and an example admin API endpoint, I can modify the script to call the exact API shape and include smoke-test requests as well.
+
+CI / Autograder note
+--------------------
+
+- This repository's GitHub Actions autograder installs dependencies before running tests. The autograder setup currently runs:
+   `python -m pip install --upgrade pip; if [ -f requirements.txt ]; then pip install -r requirements.txt; fi; python -m pip install pytest`
+- If your project needs additional test dependencies, add them to `requirements.txt` or update the autograder workflow in `.github/workflows/classroom.yml`.
+- Run the diagnostic workflow (`.github/workflows/diagnose-tests.yml`) or check the Actions logs when tests fail — they include environment, installed packages, and pytest output to help debug `INTERNALERROR` issues.
